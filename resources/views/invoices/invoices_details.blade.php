@@ -209,7 +209,7 @@
                                                         <h5 class="card-title">اضافة مرفقات</h5>
                                                         <form method="post" action="{{ url('/InvoiceAttachments') }}"
                                                             enctype="multipart/form-data">
-                                                            {{ csrf_field() }}
+                                                            @csrf
                                                             <div class="custom-file">
                                                                 <input type="file" class="custom-file-input" id="customFile"
                                                                     name="file_name" required>
@@ -224,7 +224,7 @@
                                                                 name="uploadedFile">تاكيد</button>
                                                         </form>
                                                     </div>
-                                                    
+
                                                 <br>
 
                                                 <div class="table-responsive mt-15">
@@ -306,7 +306,7 @@
                 </div>
                 <form action="{{ route('delete_file') }}" method="post">
 
-                    {{ csrf_field() }}
+                    @csrf
                     <div class="modal-body">
                         <p class="text-center">
                         <h6 style="color:red"> هل انت متاكد من عملية حذف المرفق ؟</h6>
