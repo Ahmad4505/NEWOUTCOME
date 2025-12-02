@@ -48,8 +48,10 @@
         <div class="col-xl-12">
             <div class="card mg-b-20">
                 <div class="card-body">
-                    <a href="invoices/create" class="modal-effect btn btn-primary m-3 "> <i class="fas fa-plus"> اضافة
-                            فاتورة</i></a>
+                    @can('اضافة فاتورة')
+                        <a href="invoices/create" class="modal-effect btn btn-primary m-3 "> <i class="fas fa-plus"> اضافة
+                                فاتورة</i></a>
+                    @endcan
                     <div class="table-responsive">
                         <table id="example" class="table key-buttons text-md-nowrap">
                             <thead>
@@ -104,32 +106,36 @@
                                                     type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
                                                 <div class="dropdown-menu tx-13">
                                                     {{-- ('تعديل الفاتورة') --}}
-                                                    <a class="dropdown-item"
-                                                        href=" {{ url('edit_invoice') }}/{{ $invoice->id }}"><i
-                                                            class="text-primary fas fa-edit"></i>&nbsp;&nbsp;تعديل
-                                                        الفاتورة</a>
-
+                                                    @can('تعديل الفاتورة')
+                                                        <a class="dropdown-item" href=" {{ url('edit_invoice') }}/{{ $invoice->id }}"><i class="text-primary fas fa-edit"></i>&nbsp;&nbsp;تعديل الفاتورة</a>
+                                                    @endcan
 
                                                     {{-- ('حذف الفاتورة') --}}
+                                                @can('حذف الفاتورة')
                                                     <a class="dropdown-item" href="#"
                                                         data-invoice_id="{{ $invoice->id }}" data-toggle="modal"
                                                         data-target="#delete_invoice"><i
-                                                            class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف
-                                                        الفاتورة</a>
+                                                        class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف الفاتورة</a>
+                                                @endcan
                                                     {{-- (' تغير حالة الدفع') --}}
+                                                @can('تغير حالة الدفع')
                                                     <a class="dropdown-item"
                                                         href="{{ URL::route('Status_show', [$invoice->id]) }}"><i
-                                                            class=" text-success fas
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    fa-money-bill"></i>&nbsp;&nbsp;تغير
-                                                        حالة
-                                                        الدفع</a>
+                                                        class=" text-success fas fa-money-bill"></i>&nbsp;&nbsp;تغير حالة الدفع</a>
+                                                @endcan
 
+                                                @can('ارشفة الفاتورة')
                                                     <a class="dropdown-item" href="#"
                                                         data-invoice_id="{{ $invoice->id }}" data-toggle="modal"
                                                         data-target="#Transfer_invoice"><i
-                                                            class="text-warning fas fa-exchange-alt"></i>&nbsp;&nbsp;نقل الي
-                                                        الارشيف</a>
+                                                        class="text-warning fas fa-exchange-alt"></i>&nbsp;&nbsp;نقل الي الارشيف</a>
+                                                @endcan
 
+                                                @can('طباعةالفاتورة')
+                                                    <a class="dropdown-item" href="Print_invoice/{{ $invoice->id }}"><i
+                                                        class="text-success fas fa-print"></i>&nbsp;&nbsp;طباعة الفاتورة
+                                                    </a>
+                                                @endcan
                                         </td>
                                         <td></td>
 
@@ -225,16 +231,6 @@
     <!--Internal  Notify js -->
     <script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
     <script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
-
-    {{-- <script>
-
-            $('#delete_invoice').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget)
-                var invoice_id = button.data('invoice_id')
-                var modal = $(this)
-                modal.find('.modal-body #invoice_id').val(invoice_id);
-            })
-    </script> --}}
 
     <script>
         $('#delete_invoice').on('show.bs.modal', function(event) {

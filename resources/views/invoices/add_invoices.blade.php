@@ -245,7 +245,7 @@ $(document).ready(function () {
 
 
 
-    {{-- <script>
+    <script>
         function myFunction() {
 
             var Amount_Commission = parseFloat(document.getElementById("Amount_Commission").value);
@@ -277,29 +277,6 @@ $(document).ready(function () {
 
         }
 
-    </script> --}}
-
-    <script>
-function myFunction() {
-    const amountCommission = parseFloat(document.getElementById("Amount_Commission").value) || 0;
-    const discount = parseFloat(document.getElementById("Discount").value) || 0;
-    const rateVAT = parseFloat(document.getElementById("Rate_VAT").value) || 0;
-
-    const amountAfterDiscount = amountCommission - discount;
-
-    if (amountCommission <= 0) {
-        alert('يرجى إدخال مبلغ العمولة');
-        return;
-    }
-
-    const valueVAT = (amountAfterDiscount * rateVAT / 100).toFixed(2);
-    const total = (amountAfterDiscount + parseFloat(valueVAT)).toFixed(2);
-
-    document.getElementById("Value_VAT").value = valueVAT;
-    document.getElementById("Total").value = total;
-}
-</script>
-
-
-
+    </script>
+{{-- end sum   --}}
 @endsection

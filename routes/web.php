@@ -9,6 +9,9 @@ use App\Http\Controllers\SectionsController;
 use App\Http\Controllers\ArchiveInvoicesController;
 use App\Http\Controllers\InvoicesDetailsController;
 use App\Http\Controllers\InvoiceAttachmentsController;
+use App\Http\Controllers\Invoices_ReportController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,15 +48,34 @@ Route::get('edit_invoice/{id}', [InvoicesController::class, 'edit'])->name('invo
 
 Route::get('/Status_show/{id}', [InvoicesController::class, 'show'])->middleware('auth')->name('Status_show');
 Route::post('/Status_Update/{id}', [InvoicesController::class, 'Status_Update'])->name('Status_Update')->middleware('auth');
-Route::post('/Invoice_Paid', [InvoicesController::class, 'Invoice_Paid'])->name('Invoice_Paid')->middleware('auth');
-Route::post('/Invoice_UnPaid', [InvoicesController::class, 'Invoice_UnPaid'])->name('Invoice_UnPaid')->middleware('auth');
-Route::post('/Invoice_Partial', [InvoicesController::class, 'Invoice_Partial'])->name('Invoice_Partial')->middleware('auth');
+Route::get('/Invoice_Paid', [InvoicesController::class, 'Invoice_Paid'])->name('Invoice_Paid')->middleware('auth');
+Route::get('/Invoice_UnPaid', [InvoicesController::class, 'Invoice_UnPaid'])->name('Invoice_UnPaid')->middleware('auth');
+Route::get('/Invoice_Partial', [InvoicesController::class, 'Invoice_Partial'])->name('Invoice_Partial')->middleware('auth');
 Route::resource('Archive', ArchiveInvoicesController::class)->middleware('auth');
+Route::get('Print_invoice/{id}', [InvoicesController::class,'Print_invoice'])->middleware('auth');
+
+
+Route::get('invoices_report', [Invoices_ReportController::class,'index'])->middleware('auth');
+Route::post('Search_invoices', [Invoices_ReportController::class,'Search_invoices'])->middleware('auth');
+
 
 Route::get('View_file/{invoice_number}/{file_name}', [InvoicesDetailsController::class, 'open_file'])->middleware('auth');
 Route::get('download/{invoice_number}/{file_name}', [InvoicesDetailsController::class, 'get_file'])->middleware('auth');
 Route::post('delete_file', [InvoicesDetailsController::class, 'destroy'])->name('delete_file')->middleware('auth');
 Route::post('/InvoiceAttachments', [InvoiceAttachmentsController::class, 'store'])->name('InvoiceAttachments.store')->middleware('auth');
+
+
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::resource('roles', RoleController::class);
+
+    Route::resource('users', UserController::class);
+
+});
+
+
+
+
 
 require __DIR__.'/auth.php';
 Route::get('/{page}', [AdminController::class, 'index'])->name('index');

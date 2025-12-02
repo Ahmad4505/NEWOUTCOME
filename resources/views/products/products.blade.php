@@ -84,8 +84,10 @@
             <div class="card mg-b-20">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
+                    @can('اضافة منتج')
                         <a class="modal-effect btn btn-outline-primary" data-effect="effect-scale" data-toggle="modal"
                             href="#modaldemo8">اضافة منتج</a>
+                    @endcan
                     </div>
 
                 </div>
@@ -99,7 +101,7 @@
                                     <th class="border-bottom-0">اسم القسم</th>
                                     <th class="border-bottom-0">الملاحظات</th>
                                     <th class="border-bottom-0">العمليات</th>
-                                    <th class="border-bottom-0"></th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -112,6 +114,7 @@
                                         <td>{{ $product->description }}</td>
                                         <td>
 
+                                        @can('تعديل منتج')
                                             <a class="modal-effect btn btn-sm btn-primary" data-effect="effect-scale"
                                                 data-id="{{ $product->id }}"
                                                 data-product_name="{{ $product->Product_name }}"
@@ -120,15 +123,17 @@
                                                 href="#exampleModal2" title="تعديل">
                                                 <i class="las la-pen"></i>
                                             </a>
-
+                                        @endcan
+                                        @can('حذف منتج')
                                             <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                                 data-id="{{ $product->id }}"
                                                 data-Product_name="{{ $product->Product_name }}" data-toggle="modal"
                                                 href="#modaldemo9" title="حذف">
                                                 <i class="las la-trash"></i>
                                             </a>
+                                        @endcan
                                         </td>
-                                        <td></td>
+
                                 @endforeach
 
                                 </tr>
