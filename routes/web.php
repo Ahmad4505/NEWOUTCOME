@@ -7,6 +7,8 @@ use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SectionsController;
 use App\Http\Controllers\ArchiveInvoicesController;
+use App\Http\Controllers\Customers_ReportController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoicesDetailsController;
 use App\Http\Controllers\InvoiceAttachmentsController;
 use App\Http\Controllers\Invoices_ReportController;
@@ -28,10 +30,9 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
+
+Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -57,6 +58,9 @@ Route::get('Print_invoice/{id}', [InvoicesController::class,'Print_invoice'])->m
 
 Route::get('invoices_report', [Invoices_ReportController::class,'index'])->middleware('auth');
 Route::post('Search_invoices', [Invoices_ReportController::class,'Search_invoices'])->middleware('auth');
+
+Route::get('customers_report', [Customers_ReportController::class,'index'])->middleware('auth');
+Route::post('Search_customers', [Customers_ReportController::class,'Search_customers'])->middleware('auth');
 
 
 Route::get('View_file/{invoice_number}/{file_name}', [InvoicesDetailsController::class, 'open_file'])->middleware('auth');

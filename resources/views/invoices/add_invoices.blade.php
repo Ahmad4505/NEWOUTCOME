@@ -46,7 +46,7 @@
                 <div class="card-body">
                     <form action="{{ route('invoices.store') }}" method="post" enctype="multipart/form-data"
                         autocomplete="off">
-                        @csrf
+                        {{ csrf_field() }}
                         {{-- 1 --}}
 
                         <div class="row">
@@ -212,37 +212,32 @@
 
     </script>
 
-
-
     <script>
-$(document).ready(function () {
-    $('select[name="Section"]').on('change', function () {
-        let sectionId = $(this).val();
-
-        if (sectionId) {
-            $.ajax({
-                url: "{{ url('/section') }}/" + sectionId,
-                type: "GET",
-                dataType: "json",
-                success: function (data) {
-                    let productSelect = $('select[name="product"]');
-                    productSelect.empty();
-
-                    $.each(data, function (key, value) {
-                        productSelect.append('<option value="' + key + '">' + value + '</option>');
+        $(document).ready(function() {
+            $('select[name="Section"]').on('change', function() {
+                var SectionId = $(this).val();
+                if (SectionId) {
+                    $.ajax({
+                        url: "{{ URL::to('section') }}/" + SectionId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('select[name="product"]').empty();
+                            $.each(data, function(key, value) {
+                                $('select[name="product"]').append('<option value="' +
+                                    value + '">' + value + '</option>');
+                            });
+                        },
                     });
-                },
-                error: function () {
-                    console.error('AJAX load failed');
+
+                } else {
+                    console.log('AJAX load did not work');
                 }
             });
-        } else {
-            console.warn('No section selected');
-        }
-    });
-});
-</script>
 
+        });
+
+    </script>
 
 
     <script>
@@ -278,5 +273,6 @@ $(document).ready(function () {
         }
 
     </script>
-{{-- end sum   --}}
+
+
 @endsection
