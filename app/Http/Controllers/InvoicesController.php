@@ -106,17 +106,14 @@ class InvoicesController extends Controller
             $image->move(public_path('Attachments/' . $invoice_number), $file_name);
         }
 
-        // // إرسال إشعارات للمستخدمين
-        // $users = User::all();
-        // Notification::send($users, new \App\Notifications\Add_invoice_new($invoice));
 
-        // إطلاق الحدث
-        // event(new MyEventClass('hello world'));
+        // $user = User::first();
+        // Notification::send($user, new Addinvoice($invoic_id));
 
-        // رسالة نجاح
 
-        $user = User::first();
-        Notification::send($user, new Addinvoice($invoic_id));
+        $user = User::get();
+        $invoice = invoices::latest()->first();
+        Notification::send($user, new \App\Notifications\Add_invoice_new($invoice));
 
         session()->flash('Add', 'تم اضافة الفاتورة بنجاح');
         return back();
@@ -292,4 +289,26 @@ class InvoicesController extends Controller
         $invoices = invoices::where('id', $id)->first();
         return view('invoices.Print_invoice', compact('invoices'));
     }
+
+
+    public function MarkAsRead_all (Request $request)
+    {
+
+        $userUnreadNotification= auth()->user()->unreadNotifications;
+
+        if($userUnreadNotification) {
+            $userUnreadNotification->markAsRead();
+            return back();
+        }
+    }
+
+    public function getNotifications()
+{
+    return response()->json([
+        'count' => auth()->user()->unreadNotifications()->count(),
+        'notifications' => auth()->user()->unreadNotifications()->take(5)
+    ]);
+}
+
+
 }

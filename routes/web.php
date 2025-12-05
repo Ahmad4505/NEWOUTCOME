@@ -78,7 +78,8 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 
-
+Route::get('MarkAsRead_all',[InvoicesController::class ,'MarkAsRead_all'])->name('MarkAsRead_all');
+Route::get('/notifications/get', [InvoicesController::class, 'getNotifications'])->name('notifications.get');
 
 
 require __DIR__.'/auth.php';
